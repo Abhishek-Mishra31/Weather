@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  border: 3px solid red;
 }
 
 .App-logo {
@@ -70,9 +71,8 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  background: url("../public/wbg.jpg");
+  background: url("https://img.freepik.com/free-photo/photorealistic-style-clouds_23-2151058968.jpg?t=st=1713601530~exp=1713605130~hmac=da2061a7e687c6b47644556f2a3b2e7a0714ff0f8a0ce66948dc2bc180bf11c9&w=740");
   background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .card {
