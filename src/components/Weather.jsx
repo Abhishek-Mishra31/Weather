@@ -1,21 +1,20 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import Spinner from "./Spinner";
 
 const Weather = () => {
   const [weather, setweather] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const ref = useRef(null);
   const closeRef = useRef(null);
   const { cityname } = useParams();
 
-  useEffect(() => {
-    getWeather();
-  });
-
-  const getWeather = async (res, req) => {
+  const getWeather = useCallback(async () => {
     try {
       const url = `https://api.openweathermap.org/data/2.5/forecast?q=${cityname}&appid=e402ff2b2185d2c22f3bd21f4e920110`;
+      setLoading(true);
       let response = await fetch(url);
       const result = await response.json();
       if (result.list && result.list.length > 0) {
@@ -25,10 +24,16 @@ const Weather = () => {
       } else {
         setError("Weather data not available");
       }
+      setLoading(false);
     } catch (error) {
       setError(error.message);
+      setLoading(false);
     }
-  };
+  }, [cityname]);
+
+  useEffect(() => {
+    getWeather();
+  }, [getWeather]);
 
   useEffect(() => {
     if (error && ref.current) {
@@ -44,6 +49,7 @@ const Weather = () => {
   return (
     <>
       <div className="fullscreen">
+        {loading && <Spinner />}
         {weather && weather.main && weather.weather && (
           <div className="items">
             <div className="forecast my-5">
